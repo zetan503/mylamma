@@ -1,0 +1,1 @@
+FROM /home/zetan/.cache/huggingface/hub/models--city96--stable-diffusion-3.5-large-gguf/snapshots/a2f64f3850d78119dbdae7fb81466fb1e2d8e8bd/sd3.5_large-Q4_0.gguf
