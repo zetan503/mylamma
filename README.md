@@ -56,6 +56,7 @@ netsh interface portproxy reset
 # Add port forwarding rules for HTTP and HTTPS
 netsh interface portproxy add v4tov4 listenport=80 listenaddress=192.168.1.10 connectaddress=172.22.245.128 connectport=80
 netsh interface portproxy add v4tov4 listenport=443 listenaddress=192.168.1.10 connectaddress=172.22.245.128 connectport=443
+netsh interface portproxy add v4tov4 listenport=22 listenaddress=192.168.1.10 connectaddress=172.22.245.128 connectport=22
 
 # Verify the port forwarding rules
 netsh interface portproxy show v4tov4
@@ -68,9 +69,31 @@ Remove-NetFirewallRule -DisplayName "WSL_HTTPS" -ErrorAction SilentlyContinue
 # Add new firewall rules
 New-NetFirewallRule -DisplayName "WSL_HTTP" -Direction Inbound -Action Allow -Protocol TCP -LocalPort 80
 New-NetFirewallRule -DisplayName "WSL_HTTPS" -Direction Inbound -Action Allow -Protocol TCP -LocalPort 443
+New-NetFirewallRule -DisplayName "WSL_SSH" -Direction Inbound -Action Allow -Protocol TCP -LocalPort 22
 pip install -U "huggingface_hub[cli]"
 
 pip install --upgrade huggingface_hub
 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
 HF_HUB_ENABLE_HF_TRANSFER=1
+HF_HUB_ENABLE_HF_TRANSFER=0
+
+
  ollama create city96_large -f Modelfile
+ curl http://localhost:11434/v1/chat/completions     -H "Content-Type: application/json"     -d '{
+        "model": "llama3:8b",
+        "messages": [
+            {
+                "role": "system",
+                "content": "You are a helpful assistant."
+            },
+            {
+                "role": "user",
+                "content": "Hello!"
+            }
+        ]
+    }
+
+
+FROM /home/zetan/.cache/huggingface/hub/models--city96--stable-diffusion-3.5-large-gguf/snapshots/a2f64f3850d78119dbdae7fb81466fb1e2d8e8bd/sd3.5_large-Q4_0.gguf
+ ollama create city96_large -f Modelfile
+
